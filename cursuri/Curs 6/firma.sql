@@ -51,9 +51,72 @@ SELECT nume, prenume FROM angajat;
 SELECT CONCAT(nume, ' ' ,prenume) AS "Nume complet" FROM angajat ORDER BY nume ASC;
 SELECT id, nume, prenume FROM angajat ORDER BY nume DESC; #pt angajatii cu acelasi nume, adaug si id pt a fi unic
 SELECT id, nume, prenume FROM angajat ORDER BY departament_id DESC, salariu ASC;
+SELECT * FROM angajat;
+SELECT * FROM departament;
+SELECT id AS "id HR" FROM departament WHERE nume = 'HR';
 SELECT id, nume, prenume FROM angajat WHERE departament_id=5;
+
+SELECT * FROM angajat JOIN departament
+ON angajat. departament_id = departament.id; /*tabela1fk = tabela2.pk*/
+
+SELECT * FROM angajat JOIN departament
+ON angajat. departament_id = departament.id WHERE nume = 'HR';
+SELECT angajat.nume, angajat.prenume FROM angajat JOIN departament
+ON angajat. departament_id = departament.id WHERE nume = 'HR';
+SELECT COUNT(*) FROM angajat JOIN departament
+ON angajat.departament_id = departament.id WHERE departament.nume != 'HR';
 SELECT id, nume, prenume FROM angajat WHERE departament_id != 5;
 SELECT id, nume, prenume FROM angajat WHERE salariu > 3000;
+SELECT COUNT(*) FROM angajat WHERE salariu > 3000;
 SELECT id, nume, prenume FROM angajat WHERE salariu = 3000;
 SELECT id, nume, prenume FROM angajat WHERE salariu BETWEEN 3000 AND 5000;
-SELECT id, nume, prenume FROM angajat WHERE manager IS NULL;
+SELECT id, nume, prenume FROM angajat WHERE manager_id IS NULL;
+SELECT id, nume, prenume FROM angajat WHERE manager_id=1;
+#enumerati angajatii ai caror manager este Toma Ion
+SELECT id FROM angajat WHERE nume = 'Toma' AND prenume = 'Ion';
+SELECT * FROM angajat JOIN angajat AS boss
+ON angajat.manager_id = boss.id WHERE boss.nume = 'Toma' AND boss.prenume = 'Ion';
+
+SELECT * FROM departament WHERE nume = 'Backend';
+SELECT nume, prenume FROM angajat WHERE salariu > 2500 and departament_id = 4;
+
+SELECT * FROM angajat JOIN departament
+ON angajat.departament_id=departament.id WHERE salariu > 2500 AND departament.nume = 'Backend';
+
+SELECT * FROM angajat AS sub JOIN angajat AS man
+ON sub.manager_id = man.id WHERE man.nume != 'Toma' OR man.prenume != 'Ion';
+-- SELECT * FROM angajat AS sub JOIN angajat AS man
+-- ON man.manager_id = sub.id WHERE sub.nume != 'Toma' OR sub.prenume != 'Ion';
+
+SELECT COUNT(*) FROM angajat AS sub JOIN angajat AS man
+ON sub.manager_id = man.id WHERE man.nume != 'Toma' OR man.prenume != 'Ion';
+
+SELECT * FROM angajat AS sub JOIN angajat AS man
+ON sub.manager_id = man.id;
+
+SELECT * FROM angajat AS sub LEFT JOIN angajat AS man
+ON sub.manager_id = man.id;
+
+SELECT COUNT(*) FROM angajat AS sub LEFT JOIN angajat AS man
+ON sub.manager_id = man.id WHERE man.nume != 'Toma' OR man.prenume != 'Ion';
+
+SELECT * FROM angajat AS sub LEFT JOIN angajat AS man
+ON sub.manager_id = man.id WHERE (man.nume != 'Toma' OR man.prenume != 'Ion') OR sub.manager_id IS NULL;
+SELECT COUNT(*) FROM angajat AS sub LEFT JOIN angajat AS man
+ON sub.manager_id = man.id WHERE (man.nume != 'Toma' OR man.prenume != 'Ion') OR sub.manager_id IS NULL;
+
+SELECT * FROM angajat AS s JOIN angajat AS m 
+ON s.manager_id=m.id 
+JOIN departament AS d 
+ON s.departament_id = d.id;
+
+SELECT * FROM angajat AS s JOIN departament AS d
+ON s.departament_id = d.id;
+
+CREATE VIEW amd AS 
+	SELECT s.nume AS s_nume, s.prenume AS s_prenume, d.nume AS dep, m.nume AS m_nume, m.prenume AS m_prenume FROM
+	angajat AS s JOIN angajat AS m 
+	ON s.manager_id=m.id 
+	JOIN departament AS d 
+	ON s.departament_id = d.id;
+SELECT * FROM amd;

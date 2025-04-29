@@ -1,0 +1,1 @@
+CREATE USER boola@localhost IDENTIFIED BY 'parola';
