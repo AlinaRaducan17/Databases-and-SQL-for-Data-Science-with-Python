@@ -1,0 +1,12 @@
+
+This Python script connects to a MySQL database named 'movies', retrieves film genre and budget data using SQL JOIN queries,
+calculates the average movie budget per genre using pandas, and visualizes the result in a bar chart using seaborn and matplotlib.
+
+Main steps:
+1. Connects to MySQL using mysql.connector
+2. Executes a SQL query joining movie, movie_genre, and genre tables
+3. Loads the data into a pandas DataFrame
+4. Calculates average budgets grouped by genre
+5. Visualizes the average budgets as a bar chart
+
+The result is shown in a plot titled 'Bugetul Mediu al Filmelor pe Gen'.
